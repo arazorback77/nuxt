@@ -7,7 +7,7 @@ export default defineNuxtConfig({
   css: ["~/assets/css/main.css", "primeicons/primeicons.css"],
 
   // modules: ["@primevue/nuxt-module", "@nuxt/content", "reka-ui/nuxt"],
-  modules: ["@nuxt/content", "reka-ui/nuxt"],
+  modules: ["@nuxt/content", "reka-ui/nuxt", "@nuxthub/core"],
 
   vite: {
     plugins: [tailwindcss()],
