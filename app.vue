@@ -1,7 +1,8 @@
 <template>
   <div>
-    <NuxtRouteAnnouncer />
-    <h2>Home main branch of nuxt repo</h2>
-    <NuxtWelcome />
+    <NuxtLayout>
+      <h2>Home</h2>
+      <NuxtPage></NuxtPage>
+    </NuxtLayout>
   </div>
 </template>
