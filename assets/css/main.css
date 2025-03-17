@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@theme {
+  --color-gheader-background: #546e7a;
+  --color-gheader-foreground: #ffffff;
+  --color-gheader-inverse: #ffffff;
+  --color-gheader-hover: #455a64;
+  --color-gheader-active: #37474f;
+  --color-gheader-accent: #263238;
+}
