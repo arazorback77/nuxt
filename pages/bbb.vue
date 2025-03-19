@@ -6,6 +6,6 @@
 </template>
 <script setup lang="ts">
 definePageMeta({
-  layout: "goflayout",
+  layout: "goflayout2",
 });
 </script>
