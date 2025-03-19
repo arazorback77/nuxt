@@ -1,1 +1,0 @@
-DROP TABLE IF EXISTS _content_info;
