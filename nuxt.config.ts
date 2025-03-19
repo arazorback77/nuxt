@@ -175,8 +175,4 @@ export default defineNuxtConfig({
       exclude: ["Editor", "Form", "Chart", "FormField"],
     },
   },
-
-  disqus: {
-    shortname: "gofbook",
-  },
 });
