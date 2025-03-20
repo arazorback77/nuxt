@@ -1,6 +1,6 @@
 <template>
   <div>
-    <UModal class="w-full">
+    <UModal v-model:open="open" class="w-full">
       <UButton
         variant="solid"
         color="primary"
@@ -12,29 +12,23 @@
           <span class="text-xs">⌘</span> K
         </Kbd>
       </UButton>
-
-      <template #content>
-        <!-- <UCommandPalette
-          v-model="label"
-          placeholder="Search Contents..."
-          :groups="[{ id: 'labels', items }]"
-          :ui="{ input: '[&>input]:h-8' }"
-        /> -->
-        <UCard class="bg-gray-900">
-          <UInput v-model="query" placeholder="Search..." class="w-full" />
-          <ul>
-            <li v-for="link of result" :key="link.id" class="mt-2">
-              <NuxtLink :to="link.id">
-                <h2 class="text-white">
-                  {{ link.title }}
-                </h2>
-                <p class="text-white line-clamp-3">
-                  <span v-html="link.hints"></span>
-                </p>
-              </NuxtLink>
-            </li>
-          </ul>
-        </UCard>
+      <template #header>
+        <UInput v-model="query" placeholder="Search..." class="w-full" />
+      </template>
+      <template #body>
+        <ul>
+          <li v-for="link of result" :key="link.id" class="mt-2">
+            <NuxtLink :to="link.id">
+              <h2 class="text-white">
+                {{ link.title }}
+              </h2>
+              <p class="text-white line-clamp-3">
+                <span v-html="link.hints"></span>
+              </p>
+            </NuxtLink>
+          </li>
+        </ul>
+        <UCard class="bg-gray-900 w-full"> </UCard>
       </template>
     </UModal>
   </div>
@@ -46,6 +40,14 @@ import type { SearchResult } from "minisearch";
 
 const visible = ref(false);
 const label = ref([]);
+
+const open = ref(false);
+
+defineShortcuts({
+  meta_k: () => {
+    open.value = !open.value;
+  },
+});
 
 const query = ref("");
 const { data } = await useAsyncData("search", () =>

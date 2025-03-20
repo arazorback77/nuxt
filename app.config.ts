@@ -85,9 +85,15 @@ export default defineAppConfig({
     modal: {
       slots: {
         overlay: "bg-(--ui-bg-elevated)/50",
+        header: "flex items-center gap-1.5 p-2 sm:px-6 min-h-16",
       },
       variants: {
-        fullscreen: {},
+        fullscreen: {
+          false: {
+            // content: "sm:max-w-xl",
+            content: "w-4/5 max-w-4/5 h-4/5 min-h-4/5 bg-gray-900",
+          },
+        },
       },
     },
   },
