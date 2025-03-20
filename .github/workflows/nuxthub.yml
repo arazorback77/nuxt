@@ -33,8 +33,8 @@ jobs:
       - name: Build application
         run: npm run build
         env:
-          NUXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "pk_test_ZnVsbC1wdW1hLTIuY2xlcmsuYWNjb3VudHMuZGV2JA"
-          NUXT_CLERK_SECRET_KEY: "sk_test_SUFADej5XXrzwfUCd3Exo3xWWQUwtLRbc8ALCK4Jxx"
+          NUXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "${{vars.NUXT_PUBLIC_CLERK_PUBLISHABLE_KEY}}"
+          NUXT_CLERK_SECRET_KEY: "${{vars.NUXT_CLERK_SECRET_KEY}}"
 
       - name: Deploy to NuxtHub
         uses: nuxt-hub/action@v1
