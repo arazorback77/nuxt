@@ -53,3 +53,11 @@
   background-color: var(--ui-color-neutral-500);
   color: var(--color-primary-500);
 }
+
+body {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+::-webkit-scrollbar {
+  display: none;
+}
