@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="bg-(--gofhead) grid grid-cols-[minmax(240px,0.18fr)_48px_1fr_minmax(200px,0.5fr)_120px] sticky top-0 z-50 h-12 items-center"
+    class="bg-(--gofhead) grid grid-cols-[minmax(240px,0.18fr)_48px_1fr_minmax(200px,0.5fr)_120px] sticky top-0 h-12 items-center"
   >
     <LayoutTopLogo></LayoutTopLogo>
     <div>
@@ -50,7 +50,39 @@
     </div>
   </nav>
 
-  <slot> </slot>
+  <SplitterGroup
+    direction="horizontal"
+    class="h-full min-h-[calc(200vh-100px)] !overflow-visible"
+  >
+    <SplitterPanel
+      ref="panelRef"
+      collapsible
+      :default-size="20"
+      :collapsed-size="0"
+      :min-size="0"
+      class="sticky top-[60px] h-[calc(100vh-88px)] flex flex-col"
+    >
+      Side
+      <p class="truncate">
+        aasdfas1asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf
+      </p>
+      <p>aasdfas2</p>
+      <p>aasdfas3</p>
+      <p>aasdfas4</p>
+      <p>aasdfas5</p>
+      <p>aasdfas6</p>
+    </SplitterPanel>
+    <SplitterResizeHandle class="w-1 bg-(--gofhead) hover:w-2" />
+    <SplitterPanel :default-size="65" class="px-20">
+      Main
+      <slot> </slot>
+    </SplitterPanel>
+    <SplitterResizeHandle class="w-1 bg-(--gofhead) hover:w-2" />
+
+    <SplitterPanel class="sticky top-[60px] h-[calc(100vh-88px)]">
+      Right
+    </SplitterPanel>
+  </SplitterGroup>
 </template>
 
 <script setup lang="ts">
