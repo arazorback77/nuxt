@@ -1,9 +1,55 @@
-@import "tailwindcss";
-@theme {
-  --color-gheader-background: #546e7a;
-  --color-gheader-foreground: #ffffff;
-  --color-gheader-inverse: #ffffff;
-  --color-gheader-hover: #455a64;
-  --color-gheader-active: #37474f;
-  --color-gheader-accent: #263238;
+@import "tailwindcss" theme(static);
+@import "@nuxt/ui";
+@theme static {
+  --color-bluegrey-50: #eceff1;
+  --color-bluegrey-100: #cfd8dc;
+  --color-bluegrey-200: #b0bec5;
+  --color-bluegrey-300: #90a4ae;
+  --color-bluegrey-400: #78909c;
+  --color-bluegrey-500: #607d8b;
+  --color-bluegrey-600: #546e7a;
+  --color-bluegrey-700: #455a64;
+  --color-bluegrey-800: #37474f;
+  --color-bluegrey-900: #263238;
+  --color-bluegrey-950: #263238;
+}
+
+:root {
+  --ui-gof: var(--color-bluegrey-900);
+  --ui-gofinv: var(--color-bluegrey-400);
+
+  /* --ui-text: var(--ui-color-neutral-900);
+  --ui-bg: var(--ui-color-neutral-50); */
+  --ui-bg-invert: var(--ui-color-neutral-900);
+  --ui-fg: var(--color-bluegrey-900);
+  --ui-fg-invert: var(--color-bluegrey-200);
+
+  --gofhead: var(--color-bluegrey-900);
+  --gofhead-inv: var(--color-bluegrey-200);
+  --gofhead-accent: var(--color-bluegrey-400);
+}
+
+.dark {
+  --ui-gof: var(--color-bluegrey-200);
+  --ui-gofinv: var(--color-bluegrey-700);
+
+  /* --ui-text: var(--ui-color-neutral-200); */
+  /* --ui-bg: var(--ui-color-neutral-950); */
+  --ui-bg-invert: var(--ui-color-neutral-100);
+  --ui-fg: var(--color-bluegrey-200);
+  --ui-fg-invert: var(--color-bluegrey-900);
+
+  --gofhead: var(--color-bluegrey-900);
+  --gofhead-inv: var(--color-bluegrey-200);
+  --gofhead-accent: var(--color-bluegrey-400);
+}
+
+.highlighter {
+  background-color: var(--ui-color-neutral-300);
+  color: var(--color-primary-500);
+}
+
+.dark .highlighter {
+  background-color: var(--ui-color-neutral-500);
+  color: var(--color-primary-500);
 }

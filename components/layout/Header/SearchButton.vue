@@ -1,6 +1,6 @@
 <template>
   <!-- v-if="style === 'input'" :class="[inAside ? 'mb-4' : 'md:w-40 lg:w-64']" -->
-  <Button
+  <UButton
     outline
     class="h-8 w-1/2 self-center rounded-md font-normal text-muted-foreground hover:text-accent-foreground"
     @click="visible = true"
@@ -14,7 +14,7 @@
     <Kbd class="ml-auto hidden md:block">
       <span class="text-xs">⌘</span> K
     </Kbd>
-  </Button>
+  </UButton>
 
   <LayoutHeaderSearchDialogP v-model:visible="visible" />
 

@@ -1,5 +1,5 @@
 <template>
-  <MegaMenu :model="items" class="text-sm font-bold ml-auto h-12"> </MegaMenu>
+  <h2>aaa</h2>
 </template>
 
 <script setup>

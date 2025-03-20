@@ -1,41 +1,51 @@
 <template>
   <nav
-    class="grid grid-cols-[minmax(200px,0.18fr)_48px_1fr_minmax(200px,0.5fr)_48px] sticky top-0 z-50 h-12 items-center"
+    class="bg-(--gofhead) grid grid-cols-[minmax(240px,0.18fr)_48px_1fr_minmax(200px,0.5fr)_120px] sticky top-0 z-50 h-12 items-center"
   >
     <LayoutTopLogo></LayoutTopLogo>
     <div>
-      <Button
+      <UButton
         v-if="panelRef?.isCollapsed"
-        icon="pi pi-chevron-right"
-        severity="contrast"
-        rounded
-        raised
-        size="small"
+        icon="i-lucide-chevron-left"
+        size="md"
+        color="primary"
+        variant="solid"
+        class="rounded-full"
         @click="panelRef?.expand()"
       />
 
-      <Button
+      <UButton
         v-else
-        icon="pi pi-chevron-left"
-        severity="contrast"
-        rounded
-        raised
-        size="small"
+        icon="i-lucide-chevron-right"
+        size="md"
+        color="primary"
+        variant="solid"
+        class="rounded-full"
         @click="panelRef?.collapse()"
       >
-      </Button>
+      </UButton>
     </div>
     <LayoutTopCenter2></LayoutTopCenter2>
     <LayoutTopRight></LayoutTopRight>
 
-    <div class="clerk">
+    <div class="flex flex-row items-center justify-evenly">
+      <ColorModeButton></ColorModeButton>
       <SignedOut>
         <SignInButton>
-          <Button icon="pi pi-user" severity="info"></Button>
+          <UButton
+            icon="i-lucide-user"
+            variant="solid"
+            size="md"
+            class="rounded-full font-bold bg-(--gofhead-accent)"
+            :ui="{
+              // leadingIcon: 'text-(--gofhead)',
+              leadingIcon: 'text-(--ui-text)',
+            }"
+          ></UButton>
         </SignInButton>
       </SignedOut>
       <SignedIn>
-        <UserButton />
+        <UserButton> </UserButton>
       </SignedIn>
     </div>
   </nav>
