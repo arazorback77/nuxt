@@ -35,10 +35,6 @@ jobs:
         env:
           NUXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "${{secrets.NUXT_PUBLIC_CLERK_PUBLISHABLE_KEY}}"
           NUXT_CLERK_SECRET_KEY: "${{secrets.NUXT_CLERK_SECRET_KEY}}"
-<<<<<<< HEAD
-
-=======
->>>>>>> dev
 
       - name: Deploy to NuxtHub
         uses: nuxt-hub/action@v1
