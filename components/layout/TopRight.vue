@@ -8,9 +8,17 @@
         icon="i-lucide-search"
       >
         <span class="mr-auto overflow-hidden"> search... </span>
-        <Kbd class="ml-auto hidden md:block">
-          <span class="text-xs">⌘</span> K
-        </Kbd>
+        <UKbd
+          value="ctrl"
+          variant="solid"
+          class="bg-(--gofhead-inv) text-(--gofhead)"
+        />
+        +
+        <UKbd
+          value="K"
+          variant="solid"
+          class="bg-(--gofhead-inv) text-(--gofhead)"
+        />
       </UButton>
       <template #header>
         <UInput v-model="query" placeholder="Search..." class="w-full" />
@@ -45,6 +53,9 @@ const open = ref(false);
 
 defineShortcuts({
   meta_k: () => {
+    open.value = !open.value;
+  },
+  ctrl_k: () => {
     open.value = !open.value;
   },
 });

@@ -26,6 +26,9 @@
     "vue-router": "^4.5.0"
   },
   "devDependencies": {
+    "remark-math": "^6.0.0",
+    "rehype-katex": "^7.0.1",
+    "rehype-mathjax": "^7.1.0",
     "wrangler": "^4.0.0"
   }
 }

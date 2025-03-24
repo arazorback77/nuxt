@@ -53,7 +53,7 @@ export default defineAppConfig({
         // separator: 'px-2 h-px bg-(--ui-border)',
         separator: "bg-(--gofhead-accent)",
         // viewportWrapper: "absolute top-full left-0 flex w-full",
-        viewport: "bg-gray-900 ring-(--gofhead)",
+        viewport: "bg-gray-900 ring-(--gofhead) z-100",
         // viewport: 'relative overflow-hidden bg-(--ui-bg) shadow-lg rounded-[calc(var(--ui-radius)*1.5)] ring ring-(--ui-border) h-(--reka-navigation-menu-viewport-height) w-full transition-[width,height,left] duration-200 origin-[top_center] data-[state=open]:animate-[scale-in_100ms_ease-out] data-[state=closed]:animate-[scale-out_100ms_ease-in]',
         // content: "absolute top-0 left-0 w-full",
         // indicator:
@@ -70,14 +70,10 @@ export default defineAppConfig({
           false: {
             link: "text-(--gofhead-inv)",
             linkLeadingIcon: "text-(--gofhead-inv)",
-            childLink: [
+            childLink:
               "hover:bg-(--gofhead-accent)/50 text-(--gofhead-inv) hover:text-(--gofhead-inv)",
-              "transition-colors",
-            ],
-            childLinkIcon: [
+            childLinkIcon:
               "text-(--gofhead-inv) group-hover:text-(--gofhead-inv)",
-              "transition-colors",
-            ],
           },
         },
       },
@@ -94,6 +90,21 @@ export default defineAppConfig({
             content: "w-4/5 max-w-4/5 h-4/5 min-h-4/5 bg-gray-900",
           },
         },
+      },
+    },
+    tree: {
+      slots: {
+        // root: "relative isolate",
+        // item: "",
+        listWithChildren: "ms-4.5",
+        // listWithChildren: "ms-4.5 border-s border-(--ui-border)",
+        // itemWithChildren: "ps-1.5 -ms-px",
+        // link: "relative group w-full flex items-center text-sm before:absolute before:inset-y-px before:inset-x-0 before:z-[-1] before:rounded-[calc(var(--ui-radius)*1.5)] focus:outline-none focus-visible:outline-none focus-visible:before:ring-inset focus-visible:before:ring-2",
+        // linkLeadingIcon: "shrink-0",
+        // linkLabel: "truncate",
+        // linkTrailing: "ms-auto inline-flex gap-1.5 items-center",
+        // linkTrailingIcon:
+        // "shrink-0 transform transition-transform duration-200 group-data-expanded:rotate-180",
       },
     },
   },
