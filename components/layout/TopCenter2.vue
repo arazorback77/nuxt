@@ -116,7 +116,7 @@ defineShortcuts({
     v-model="active"
     :items="items"
     arrow
-    class="w-full justify-end pr-2"
+    class="w-full justify-end pr-2 z-20"
   >
     <template #components-trailing>
       <UBadge label="3" variant="solid" size="xs" class="rounded-full" />

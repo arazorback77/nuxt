@@ -20,31 +20,18 @@ const collection = computed(() =>
     : (route.path.split("/")[1] as keyof Collections)
 );
 
-// const { data: page } = await useAsyncData(route.path, () => {
-//   return queryCollection("content").path(route.path).first();
-// });
-
-const { data: versionedPage } = await useAsyncData(route.path + "-v", () => {
-  return (
-    queryCollection("kics_versioned")
-      .path(route.path)
-      // .path(route.path.replace("kics/current", "kics"))
-      .first()
-  );
-});
-
-const { data: currentPage } = await useAsyncData(route.path + "-c", () => {
-  return (
-    queryCollection("kics_current")
-      .path(route.path)
-      // .path(route.path.replace("kics", "kics/current"))
-      .first()
-  );
+const { data: page } = await useAsyncData(route.path, () => {
+  // const collectionName ="kics_current";
+  // route.path.replace("kics/current", "kics");
+  return queryCollection("kics_current")
+    .path(route.path.replace("current/kics", "kics"))
+    .first();
 });
 
 const { data: pageall } = await useAsyncData("all", () => {
-  return queryCollection("kics_versioned").all();
+  return queryCollection("kics_current").all();
 });
+
 // const headings =  page.value?.body.children.filter( (s)=> .value
 // const hierarchize = (parent: [string, object, string], list: [[string, object, string]]) => {
 //   const children = list.filter(x => x.parent == parent.code);
@@ -75,16 +62,12 @@ const items = ref([
 
 <template>
   <UBreadcrumb :items="items" class="z-10" />
-  <ContentRenderer v-if="versionedPage" :value="versionedPage" />
-  <ContentRenderer v-if="currentPage" :value="currentPage" />
-
-  <p>&&&&&&&&&&&&&&&&{{ route.path }}& Versioned $$$$$$$$$$$$$$$$$$$$$$$</p>
-  <div>{{ versionedPage?.path }} + {{ currentPage?.path }}</div>
-
-  <!-- <div>
+  <ContentRenderer v-if="page" :value="page" />
+  <p>&&&&&&&&&&&{{ route.path }} Current $$$$$$$$$$$$$$$$$$$$$$$</p>
+  <div>
     <ul v-for="item in pageall">
       <li>{{ item.path }} +{{ item.navigation }} + {{ item }}</li>
     </ul>
-    {{ pageall }}
-  </div> -->
+  </div>
+  {{ pageall }}
 </template>

@@ -18,6 +18,7 @@
 
     <NuxtLink to="/bbb">bbb</NuxtLink>
     <NuxtLink to="/aaa">aaaa</NuxtLink>
+    <NuxtLink to="/prose">Prose</NuxtLink>
   </div>
 </template>
 <script setup lang="ts">

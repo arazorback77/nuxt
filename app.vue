@@ -5,7 +5,6 @@
 <template>
   <UApp>
     <NuxtLayout>
-      <h2>Home</h2>
       <NuxtPage></NuxtPage>
     </NuxtLayout>
   </UApp>

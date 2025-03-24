@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="bg-(--gofhead) grid grid-cols-[minmax(240px,0.18fr)_48px_1fr_minmax(200px,0.5fr)_120px] sticky top-0 h-12 items-center"
+    class="bg-(--gofhead) grid grid-cols-[minmax(240px,0.18fr)_48px_1fr_minmax(200px,0.5fr)_120px] sticky top-0 h-12 z-100 items-center"
   >
     <LayoutTopLogo></LayoutTopLogo>
     <div>
@@ -73,13 +73,16 @@
     </SplitterPanel>
     <SplitterResizeHandle class="w-0.5 bg-(--gofhead-inv) hover:w-2" />
     <SplitterPanel :default-size="65" class="px-20">
-      Main
       <slot> </slot>
     </SplitterPanel>
     <SplitterResizeHandle class="w-0.5 bg-(--gofhead-inv) hover:w-2" />
 
-    <SplitterPanel class="sticky top-[60px] h-[calc(100vh-88px)]">
+    <SplitterPanel
+      :default-size="15"
+      class="sticky top-[60px] h-[calc(100vh-88px)]"
+    >
       Right
+      <LayoutToc></LayoutToc>
     </SplitterPanel>
   </SplitterGroup>
 </template>
