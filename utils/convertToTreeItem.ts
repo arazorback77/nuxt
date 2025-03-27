@@ -1,6 +1,7 @@
 import type { TreeItem } from "@nuxt/ui";
 import type { ContentNavigationItem } from "@nuxt/content";
 import type { Router } from "vue-router";
+import type { TocLink } from "@nuxt/content";
 
 function convertNaviToTreeItem(
   naviItem: ContentNavigationItem,
@@ -30,4 +31,23 @@ function convertNaviToTreeItem(
   };
 }
 
-export { convertNaviToTreeItem };
+function convertTocLinkToTreeItem(
+  route: string,
+  toclink: TocLink,
+  index: number
+): TreeItem {
+  const router = useRouter();
+  return {
+    label: toclink.text,
+    value: route + "#" + toclink.id,
+    defaultExpanded: true,
+    children: toclink.children?.map((sub) =>
+      convertTocLinkToTreeItem(route, sub, 1)
+    ),
+    onSelect: (e: Event) => {
+      router.push(route + "#" + toclink.id);
+    },
+  };
+}
+
+export { convertNaviToTreeItem, convertTocLinkToTreeItem };
