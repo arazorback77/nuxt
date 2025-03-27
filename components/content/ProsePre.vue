@@ -1,25 +1,15 @@
 <template>
-  <ProseCode
-    :code="code"
-    :language="language"
-    :filename="filename"
-    :highlights="highlights"
-    :meta="meta"
-  >
-    <pre :class="$props.class" :style="style"><slot /></pre>
-  </ProseCode>
+  <pre class="overflow-x-scroll" :class="$props.class"><slot /></pre>
 </template>
 
 <script setup lang="ts">
-import type { BuiltinLanguage } from 'shiki';
-
 defineProps({
   code: {
     type: String,
-    default: '',
+    default: "",
   },
   language: {
-    type: String as PropType<BuiltinLanguage>,
+    type: String,
     default: null,
   },
   filename: {
@@ -38,16 +28,5 @@ defineProps({
     type: String,
     default: null,
   },
-  style: {
-    type: [String, Object],
-    default: null,
-  },
 });
 </script>
-
-<style>
-pre code .line{
-  display: block;
-  min-height: 1rem
-}
-</style>

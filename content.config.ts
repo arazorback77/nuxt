@@ -14,9 +14,27 @@ export default defineContentConfig({
       type: "page",
       source: {
         include: "**/*.md",
-        exclude: ["kics/**/*.md"],
+        exclude: ["kics/**/*.md", "comp/**/*.md"],
         // prefix: "/fr",
       },
+    }),
+    comp_current: defineCollection({
+      type: "page",
+      source: {
+        include: "comp/current/**/*.md",
+        // exclude: ["kics/**/*.md"],
+        prefix: "/comp",
+      },
+      schema: commonContentSchema,
+    }),
+    comp_versioned: defineCollection({
+      type: "page",
+      source: {
+        include: "comp/**/*.md",
+        exclude: ["comp/current/**/*.{md, yml}", "comp/temp/**/*.{md, yml}"],
+        // prefix: "",
+      },
+      schema: commonContentSchema,
     }),
     kics_current: defineCollection({
       type: "page",

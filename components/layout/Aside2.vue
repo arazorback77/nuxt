@@ -61,7 +61,6 @@ let yy: ContentNavigationItem[] = [];
 if (navic.value && navic.value?.length > 0) {
   yy = xx.concat(navic.value[0]);
 }
-
 const navi = yy;
 
 const items = computed<TreeItem[]>(() =>
@@ -77,14 +76,14 @@ const items = computed<TreeItem[]>(() =>
 );
 
 // const filteredItems = ref(items.value[0].children);
-const filteredItems = computed(() => {
-  if (items.value && items.value[0] && items.value[0].children) {
-    return items.value[0].children;
-  } else {
-    return items;
-  }
-});
-// const filteredItems = items;
+// const filteredItems = computed(() => {
+//   if (items.value && items.value[0] && items.value[0].children) {
+//     return items.value[0].children;
+//   } else {
+//     return items;
+//   }
+// });
+const filteredItems = items;
 
 // const zz = naviv.value
 //   ? naviv.value[0].children?.map((s) => {

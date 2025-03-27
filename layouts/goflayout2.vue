@@ -6,7 +6,7 @@
     <div>
       <UButton
         v-if="panelRef?.isCollapsed"
-        icon="i-lucide-chevron-left"
+        icon="i-lucide-chevron-right"
         size="md"
         color="primary"
         variant="solid"
@@ -16,7 +16,7 @@
 
       <UButton
         v-else
-        icon="i-lucide-chevron-right"
+        icon="i-lucide-chevron-left"
         size="md"
         color="primary"
         variant="solid"
@@ -62,20 +62,13 @@
       :min-size="0"
       class="sticky top-[60px] h-[calc(100vh-88px)]"
     >
-      <div>
-        aasdfas
-        <div>aasdfas</div>
-        <div>aasdfas</div>
-      </div>
-      <div class="h-full overflow-y-auto">
-        <LayoutAside2></LayoutAside2>
-      </div>
+      <LayoutAside3></LayoutAside3>
     </SplitterPanel>
-    <SplitterResizeHandle class="w-0.5 bg-(--gofhead-inv) hover:w-2" />
+    <SplitterResizeHandle class="w-0.5 bg-(--ui-border) hover:w-2" />
     <SplitterPanel :default-size="65" class="px-20">
       <slot> </slot>
     </SplitterPanel>
-    <SplitterResizeHandle class="w-0.5 bg-(--gofhead-inv) hover:w-2" />
+    <SplitterResizeHandle class="w-0.5 bg-(--ui-border) hover:w-2" />
 
     <SplitterPanel
       :default-size="15"
