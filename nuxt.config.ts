@@ -4,6 +4,14 @@ export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   devtools: { enabled: false },
   css: ["~/assets/css/main.css"],
+  icon: {
+    customCollections: [
+      {
+        prefix: "g",
+        dir: "./assets/icons",
+      },
+    ],
+  },
   components: {
     global: true,
     dirs: ["~/components"],

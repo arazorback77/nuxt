@@ -1,5 +1,17 @@
 @import "tailwindcss" theme(static);
 @import "@nuxt/ui";
+@layer components {
+  .step {
+    counter-increment: step;
+    background-color: green;
+  }
+
+  .step:before {
+    @apply absolute w-9 h-9 bg-amber-400 rounded-full font-mono font-medium text-center text-base inline-flex items-center justify-center -indent-px border-4;
+    @apply -ml-[50px] -mt-1;
+    content: counter(step);
+  }
+}
 @theme static {
   --color-bluegrey-50: #eceff1;
   --color-bluegrey-100: #cfd8dc;
@@ -62,14 +74,26 @@ body {
   display: none;
 }
 
-@layer utilities {
-  .step {
-    counter-increment: step;
-  }
+/* @layer components {
+  h3 {
+    &.step {
+      counter-increment: step;
+      background-color: orange;
+    }
 
-  .step:before {
-    @apply absolute w-9 h-9 bg-blue-900 rounded-full -indent-px border-4;
-    @apply -ml-[50px] -mt-1;
-    content: counter(step);
+    &.step:before {
+      @apply absolute w-9 h-9 bg-blue-900 rounded-full -indent-px border-4 -ml-[50px] -mt-1;
+      content: counter(step);
+    }
   }
+} */
+
+/* .step {
+  counter-increment: step;
+  background-color: orange;
 }
+
+.step:before {
+  @apply absolute w-9 h-9 bg-blue-900 rounded-full -indent-px border-4 -ml-[50px] -mt-1;
+  content: counter(step);
+} */

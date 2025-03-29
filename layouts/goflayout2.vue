@@ -62,6 +62,7 @@
       :min-size="0"
       class="sticky top-[60px] h-[calc(100vh-88px)]"
     >
+      <!-- <slot name="leftside"></slot> -->
       <LayoutAside3></LayoutAside3>
     </SplitterPanel>
     <SplitterResizeHandle class="w-0.5 bg-(--ui-border) hover:w-2" />

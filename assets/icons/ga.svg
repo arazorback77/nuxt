@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0.625 25.7656 31"
+    width="25.7656px"
+    height="31px"
+  >
+    <text
+      style="
+        white-space: pre;
+        fill: white;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+      "
+      x="0"
+      y="25.625"
+    >
+      가
+    </text>
+  </svg>
