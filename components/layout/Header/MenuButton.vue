@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Button
+    <UButton
       v-if="panelRef?.isCollapsed"
       icon="pi pi-chevron-right"
       severity="contrast"
@@ -10,7 +10,7 @@
       @click="panelRef?.expand()"
     />
 
-    <Button
+    <UButton
       v-else
       icon="pi pi-chevron-left"
       severity="contrast"
@@ -19,7 +19,7 @@
       size="small"
       @click="panelRef?.collapse()"
     >
-    </Button>
+    </UButton>
     <!-- <Button
       v-if="$goff?.isCollapsed"
       icon="pi pi-chevron-right"

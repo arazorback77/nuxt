@@ -26,6 +26,6 @@
 // import "primeicons/primeicons.css";
 // const panelRef = inject("gof");
 // import Header from "./comp/Header.vue";
-import type { SplitterPanel } from "primevue";
+import type { SplitterPanel } from "reka-ui";
 const panelRefP = inject<Ref<InstanceType<typeof SplitterPanel>>>("sol");
 </script>
