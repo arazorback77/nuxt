@@ -1,9 +1,33 @@
 <script setup lang="ts">
 import { queryCollection, queryCollectionNavigation } from "#imports";
 import type { Collections, ContentCollectionItem } from "@nuxt/content";
+import { SplitterGroup, SplitterPanel, SplitterResizeHandle } from "reka-ui";
+import items from "@/public/data/bread.json";
+
+const panelRef = useTemplateRef<InstanceType<typeof SplitterPanel>>("panelRef");
+
+provide("panelRef", panelRef);
+
+const sideToggle = useState("sideToggle");
+
+const bbb = toValue(panelRef)?.isCollapsed
+  ? toValue(panelRef)?.expand()
+  : toValue(panelRef)?.collapse();
+
+// const btnSide = useState("left");
+// const btnSide = computed<string>(() => {
+//   return toValue(panelRef)?.isCollapsed ? "Expand" : "Collapse";
+// });
+
+function toggleSide(event: Event) {
+  alert("aaaaa" + bbb);
+  toValue(panelRef)?.isCollapsed
+    ? toValue(panelRef)?.expand()
+    : toValue(panelRef)?.collapse();
+}
 
 definePageMeta({
-  layout: "goflayout2",
+  layout: "default",
 });
 
 const route = useRoute();
@@ -64,37 +88,119 @@ const { data: compv } = await useAsyncData("comp-v", () => {
 
 // const topLevel = mockData.filter(x => x.parent == "");
 // topLevel.forEach(top => hierarchize(top, mockData));
-
-const items = ref([
-  {
-    label: "Home",
-    icon: "i-lucide-house",
-  },
-  {
-    label: "Components",
-    icon: "i-lucide-box",
-    to: "/components",
-  },
-  {
-    label: "Breadcrumb",
-    icon: "i-lucide-link",
-    to: "/components/breadcrumb",
-  },
-]);
+// const items = $fetch("/data/bread.json");
+// const items = ref([
+//   {
+//     label: "Home",
+//     icon: "i-lucide-house",
+//   },
+//   {
+//     label: "Components",
+//     icon: "i-lucide-box",
+//     to: "/components",
+//   },
+//   {
+//     label: "Breadcrumb",
+//     icon: "i-lucide-link",
+//     to: "/components/breadcrumb",
+//   },
+// ]);
+function aaa(event: Event) {
+  alert(panelRef + ": " + sideToggle.value + bbb);
+  toValue(panelRef)?.isCollapsed
+    ? toValue(panelRef)?.expand()
+    : toValue(panelRef)?.collapse();
+}
 </script>
 
 <template>
-  <UBreadcrumb :items="items" class="z-10 pt-2" />
-  <ContentRenderer v-if="kicsv" :value="kicsv" />
-  <ContentRenderer v-if="kicsc" :value="kicsc" />
-  <ContentRenderer v-if="content" :value="content" />
-  <ContentRenderer v-if="compc" :value="compc" />
-  <ContentRenderer v-if="compv" :value="compv" />
+  <nav
+    class="bg-(--gofhead) grid grid-cols-[minmax(240px,0.18fr)_48px_1fr_minmax(200px,0.5fr)_120px] sticky top-0 h-12 z-100 items-center"
+  >
+    <LayoutTopLogo></LayoutTopLogo>
+    <div>
+      <UButton
+        v-if="panelRef?.isCollapsed"
+        icon="i-lucide-chevron-right"
+        size="md"
+        color="primary"
+        variant="solid"
+        class="rounded-full"
+        @click="panelRef?.expand()"
+      />
 
-  <p>&&&&&&&&&&&&&&&&{{ route.path }}& Kics $$$$$$$$$$$$$$$$$$$$$$$</p>
-  <div>KICS_V : {{ kicsv?.path }} $$$ KICS_C {{ kicsc?.path }}</div>
-  <p>&&&&&&&&&&&&&&&&{{ route.path }}& comp $$$$$$$$$$$$$$$$$$$$$$$</p>
-  <div>Comp_V : {{ compv?.path }} && comp_C : {{ compc?.path }}</div>
+      <UButton
+        v-else
+        icon="i-lucide-chevron-left"
+        size="md"
+        color="primary"
+        variant="solid"
+        class="rounded-full"
+        @click="panelRef?.collapse()"
+      />
+    </div>
+    <LayoutTopCenter2></LayoutTopCenter2>
+    <LayoutTopRight></LayoutTopRight>
+
+    <div class="flex flex-row items-center justify-evenly">
+      <ColorModeButton></ColorModeButton>
+      <SignedOut>
+        <SignInButton>
+          <UButton
+            icon="i-lucide-user"
+            variant="solid"
+            size="md"
+            class="rounded-full font-bold bg-(--gofhead-accent)"
+            :ui="{
+              // leadingIcon: 'text-(--gofhead)',
+              leadingIcon: 'text-(--ui-text)',
+            }"
+          ></UButton>
+        </SignInButton>
+      </SignedOut>
+      <SignedIn>
+        <UserButton> </UserButton>
+      </SignedIn>
+    </div>
+  </nav>
+  <SplitterGroup
+    direction="horizontal"
+    class="h-full min-h-[calc(200vh-100px)] !overflow-visible"
+  >
+    <SplitterPanel
+      ref="panelRef"
+      collapsible
+      :default-size="20"
+      :collapsed-size="0"
+      :min-size="0"
+      class="sticky top-[60px] h-[calc(100vh-88px)]"
+    >
+      <LayoutAside3></LayoutAside3>
+    </SplitterPanel>
+    <SplitterResizeHandle class="w-0.5 bg-(--ui-border) hover:w-2" />
+    <SplitterPanel :default-size="65" class="px-20">
+      <UBreadcrumb :items="items" class="z-10 pt-2" />
+      <ContentRenderer v-if="kicsv" :value="kicsv" />
+      <ContentRenderer v-if="kicsc" :value="kicsc" />
+      <ContentRenderer v-if="content" :value="content" />
+      <ContentRenderer v-if="compc" :value="compc" />
+      <ContentRenderer v-if="compv" :value="compv" />
+
+      <p>&&&&&&&&&&&&&&&&{{ route.path }}& Kics $$$$$$$$$$$$$$$$$$$$$$$</p>
+      <div>KICS_V : {{ kicsv?.path }} $$$ KICS_C {{ kicsc?.path }}</div>
+      <p>&&&&&&&&&&&&&&&&{{ route.path }}& comp $$$$$$$$$$$$$$$$$$$$$$$</p>
+      <div>Comp_V : {{ compv?.path }} && comp_C : {{ compc?.path }}</div>
+    </SplitterPanel>
+    <SplitterResizeHandle class="w-0.5 bg-(--ui-border) hover:w-2" />
+
+    <SplitterPanel
+      :default-size="15"
+      class="sticky top-[60px] h-[calc(100vh-88px)]"
+    >
+      Right
+      <LayoutToc></LayoutToc>
+    </SplitterPanel>
+  </SplitterGroup>
 
   <!-- <div>
     <ul v-for="item in pageall">

@@ -4,21 +4,21 @@ import type { Collections, ContentNavigationItem } from "@nuxt/content";
 import { convertNaviToTreeItem } from "#imports";
 
 const router = useRouter();
-const route = useRoute();
+const route = ref(useRoute());
 
-const slug = route.path.split("/");
+// const slug = route.value.path.split("/");
 
-const collectionCurrent = (slug[1] + "_current") as keyof Collections;
-const collectionVersion = (slug[1] + "_versioned") as keyof Collections;
+const collectionCurrent = (route.value.path.split("/")[1] +
+  "_current") as keyof Collections;
+const collectionVersion = (route.value.path.split("/")[1] +
+  "_versioned") as keyof Collections;
 
-const { data: navic } = await useAsyncData("navigation1", () => {
+const { data: navic } = await useAsyncData(route.value.path + "_nav_c", () => {
   return queryCollectionNavigation(collectionCurrent);
 });
-
-const { data: naviv } = await useAsyncData("navigation2", () => {
+const { data: naviv } = await useAsyncData(route.value.path + "_nav_v", () => {
   return queryCollectionNavigation(collectionVersion);
 });
-
 const navmap = new Map<string, ContentNavigationItem[]>();
 
 if (naviv.value !== null && naviv.value[0].children) {
@@ -35,7 +35,10 @@ if (typeof navic.value !== "undefined" && navic.value !== null) {
 
 const selections = computed(() =>
   Array.from(navmap.keys()).map((path) => ({
-    label: path == "/" + slug[1] ? "current" : path.split("/").pop(),
+    label:
+      path == "/" + route.value.path.split("/")[1]
+        ? "current"
+        : path.split("/").pop(),
     value: path,
   }))
 );
@@ -45,10 +48,12 @@ const selections = computed(() =>
 //   value: path,
 // }));
 const initVersion = Array.from(navmap.keys()).find(
-  (e) => e == "/" + slug.slice(1, 3).join("/")
+  (e) => e == "/" + route.value.path.split("/").slice(1, 3).join("/")
 );
 
-const selectedVersion = ref(initVersion == null ? "/" + slug[1] : initVersion);
+const selectedVersion = ref(
+  initVersion == null ? "/" + route.value.path.split("/")[1] : initVersion
+);
 
 // const treeItemsAll = new Map<string, TreeItem[]>();
 
@@ -70,12 +75,13 @@ const treeItems = computed<TreeItem[]>(
 
 const selectedTreeNode = ref();
 
-// watch(route, async (to, from) => {
-//   const initVersion1 = Array.from(navmap.keys()).find(
-//     (e) => e == "/" + slug.slice(1, 3).join("/")
-//   );
-//   selectedVersion.value = initVersion1 == null ? "/" + slug[1] : initVersion1;
-// });
+watch(route, async (to, from) => {
+  const initVersion1 = Array.from(navmap.keys()).find(
+    (e) => e == "/" + route.value.path.split("/").slice(1, 3).join("/")
+  );
+  selectedVersion.value =
+    initVersion1 == null ? "/" + route.value.path.split("/")[1] : initVersion1;
+});
 </script>
 
 <template>

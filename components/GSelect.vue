@@ -7,13 +7,13 @@ const items = ref<("primary" | "secondary" | "success" | "warning")[]>([
 ]);
 const value = ref<"primary" | "secondary" | "success" | "warning">("primary");
 
-const items2 = ref<("solid" | "outline" | "subtle" | "ghost")[]>([
+const items2 = ref<("solid" | "outline" | "subtle" | "soft")[]>([
   "solid",
-  "ghost",
+  "soft",
   "outline",
   "subtle",
 ]);
-const variant = ref<"solid" | "outline" | "subtle" | "ghost">("solid");
+const variant = ref<"solid" | "outline" | "subtle" | "soft">("solid");
 </script>
 
 <template>

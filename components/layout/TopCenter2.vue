@@ -1,25 +1,34 @@
 <script setup lang="ts">
-const items = [
+import items from "@/public/data/menu.json";
+const router = useRouter();
+
+const items1 = [
   {
-    label: "Guide",
+    label: "Archives",
     icon: "i-lucide-book-open",
     children: [
       {
-        label: "Introduction",
-        description: "Fully styled and customizable components for Nuxt.",
+        label: "KICS",
+        description: "보험시행세칙 별표[22]",
         icon: "i-lucide-house",
+        to: "/kics",
+        // onSelect: (e: Event) => {
+        //   router.push("/kics");
+        // },
       },
       {
-        label: "Installation",
-        description:
-          "Learn how to install and configure Nuxt UI in your application.",
+        label: "Basel",
+        description: "Basel Accord",
         icon: "i-lucide-cloud-download",
       },
       {
-        label: "Icons",
+        label: "Component",
         icon: "i-lucide-smile",
-        description:
-          "You have nothing to do, @nuxt/icon will handle it automatically.",
+        description: "GBook Component",
+        // to: "/comp",
+        onSelect: (e: Event) => {
+          router.push("/comp/acco");
+        },
       },
       {
         label: "Colors",
