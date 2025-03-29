@@ -5,31 +5,12 @@ import { SplitterGroup, SplitterPanel, SplitterResizeHandle } from "reka-ui";
 import items from "@/public/data/bread.json";
 
 const panelRef = useTemplateRef<InstanceType<typeof SplitterPanel>>("panelRef");
-
-provide("panelRef", panelRef);
-
-const sideToggle = useState("sideToggle");
-
-const bbb = toValue(panelRef)?.isCollapsed
-  ? toValue(panelRef)?.expand()
-  : toValue(panelRef)?.collapse();
-
-// const btnSide = useState("left");
-// const btnSide = computed<string>(() => {
-//   return toValue(panelRef)?.isCollapsed ? "Expand" : "Collapse";
-// });
-
-function toggleSide(event: Event) {
-  alert("aaaaa" + bbb);
-  toValue(panelRef)?.isCollapsed
-    ? toValue(panelRef)?.expand()
-    : toValue(panelRef)?.collapse();
-}
+// provide("panelRef", panelRef);
 
 definePageMeta({
   layout: "default",
 });
-
+const router = useRouter();
 const route = useRoute();
 
 const slug = computed(() =>
@@ -40,7 +21,7 @@ const slug = computed(() =>
 
 const collection = computed(() =>
   route.path.split("/").length < 3
-    ? "docs"
+    ? "content"
     : (route.path.split("/")[1] as keyof Collections)
 );
 
@@ -76,46 +57,15 @@ const { data: compc } = await useAsyncData("comp-c", () => {
 const { data: compv } = await useAsyncData("comp-v", () => {
   return queryCollection("comp_versioned").path(route.path).first();
 });
-// const { data: pageall } = await useAsyncData("all", () => {
-//   return queryCollection("kics_versioned").all();
-// });
-// const headings =  page.value?.body.children.filter( (s)=> .value
-// const hierarchize = (parent: [string, object, string], list: [[string, object, string]]) => {
-//   const children = list.filter(x => x.parent == parent.code);
-//   children.forEach(child => hierarchize(child, list));
-//   parent.subRows = children;
-// }
 
-// const topLevel = mockData.filter(x => x.parent == "");
-// topLevel.forEach(top => hierarchize(top, mockData));
-// const items = $fetch("/data/bread.json");
-// const items = ref([
-//   {
-//     label: "Home",
-//     icon: "i-lucide-house",
-//   },
-//   {
-//     label: "Components",
-//     icon: "i-lucide-box",
-//     to: "/components",
-//   },
-//   {
-//     label: "Breadcrumb",
-//     icon: "i-lucide-link",
-//     to: "/components/breadcrumb",
-//   },
-// ]);
-function aaa(event: Event) {
-  alert(panelRef + ": " + sideToggle.value + bbb);
-  toValue(panelRef)?.isCollapsed
-    ? toValue(panelRef)?.expand()
-    : toValue(panelRef)?.collapse();
-}
+const { data: prevNext } = await useAsyncData("surround", () => {
+  return queryCollectionItemSurroundings(collection.value, route.path);
+});
 </script>
 
 <template>
   <nav
-    class="bg-(--gofhead) grid grid-cols-[minmax(240px,0.18fr)_48px_1fr_minmax(200px,0.5fr)_120px] sticky top-0 h-12 z-100 items-center"
+    class="bg-(--gofhead) grid grid-cols-[minmax(215px,0.2fr)_48px_1fr_minmax(200px,0.5fr)_120px] sticky top-0 h-12 z-100 items-center"
   >
     <LayoutTopLogo></LayoutTopLogo>
     <div>
@@ -186,9 +136,103 @@ function aaa(event: Event) {
       <ContentRenderer v-if="compc" :value="compc" />
       <ContentRenderer v-if="compv" :value="compv" />
 
+      <!-- <div class="flex justify-between gap-4 mt-2">
+        <div
+          class="flex-1 py-4 rounded-md ring-1 ring-(--ui-border-muted) group"
+        >
+          <GIconSvg
+            v-if="prevNext?.[0]"
+            name="i-tabler-chevron-left"
+          ></GIconSvg>
+          <NuxtLink v-if="prevNext?.[0]" :to="prevNext[0].path">
+            {{ prevNext[0].title }}
+          </NuxtLink>
+        </div>
+        <div
+          class="flex-1 py-4 rounded-sm ring-1 ring-(--ui-border-muted) group"
+        >
+          <NuxtLink
+            v-if="prevNext?.[1]"
+            :to="prevNext[1].path"
+            class="ml-auto rounded-sm ring-1 ring-(--ui-border-muted)"
+          >
+            {{ prevNext[1].title }}
+          </NuxtLink>
+          <GIconSvg
+            v-if="prevNext?.[1]"
+            name="i-tabler-chevron-right"
+          ></GIconSvg>
+        </div>
+      </div>
+
+      <div class="flex justify-between gap-4 mt-2 items-center">
+        <NuxtLink
+          v-if="prevNext?.[0]"
+          :to="prevNext[0].path"
+          class="flex-1 rounded-sm ring-1 ring-(--ui-border-muted) py-4 items-center"
+        >
+          <div class="flex items-center px-2">
+            <GIconSvg
+              v-if="prevNext?.[0]"
+              name="i-tabler-chevron-left"
+            ></GIconSvg>
+            {{ prevNext[0].title }}
+          </div>
+        </NuxtLink>
+
+        <NuxtLink
+          v-if="prevNext?.[1]"
+          :to="prevNext[1].path"
+          class="flex flex-1 rounded-sm ring-1 ring-(--ui-border-muted) py-4 justify-end items-center"
+        >
+          <div class="flex justify-end items-center px-2">
+            {{ prevNext[1].title }}
+            <GIconSvg
+              v-if="prevNext?.[1]"
+              name="i-tabler-chevron-right"
+            ></GIconSvg>
+          </div>
+        </NuxtLink>
+      </div> -->
+
+      <div class="flex gap-4 mt-2">
+        <UButton
+          v-if="prevNext?.[0]"
+          variant="outline"
+          color="neutral"
+          leading-icon="i-tabler-chevron-left"
+          class="flex-1 py-4"
+          :ui="{
+            leadingIcon: 'w-8 h-8 text-(--ui-text-dimmed)',
+          }"
+        >
+          <NuxtLink v-if="prevNext?.[0]" :to="prevNext[0].path">
+            {{ prevNext[0].title }}
+          </NuxtLink>
+        </UButton>
+        <div v-else class="flex-1 py-4"></div>
+        <UButton
+          v-if="prevNext?.[1]"
+          variant="outline"
+          color="neutral"
+          trailing-icon="i-tabler-chevron-right"
+          class="flex-1 py-4"
+          :ui="{
+            trailingIcon: 'w-8 h-8 text-(--ui-text-dimmed)',
+          }"
+        >
+          <NuxtLink v-if="prevNext?.[1]" :to="prevNext[1].path" class="ml-auto">
+            {{ prevNext[1].title }}
+          </NuxtLink>
+        </UButton>
+        <div v-else class="flex-1 py-4"></div>
+      </div>
+
       <p>&&&&&&&&&&&&&&&&{{ route.path }}& Kics $$$$$$$$$$$$$$$$$$$$$$$</p>
       <div>KICS_V : {{ kicsv?.path }} $$$ KICS_C {{ kicsc?.path }}</div>
       <p>&&&&&&&&&&&&&&&&{{ route.path }}& comp $$$$$$$$$$$$$$$$$$$$$$$</p>
+      {{ router }}
+
       <div>Comp_V : {{ compv?.path }} && comp_C : {{ compc?.path }}</div>
     </SplitterPanel>
     <SplitterResizeHandle class="w-0.5 bg-(--ui-border) hover:w-2" />
