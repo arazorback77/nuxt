@@ -38,7 +38,10 @@ function convertNaviToTreeItem(
     children: naviItem.children?.map((sub) =>
       convertNaviToTreeItem(sub, 1, router)
     ),
+    onToggle: (e: Event) => {},
+    // to: naviItem.path,
     onSelect: (e: Event) => {
+      console.log("treenode" + naviItem.path + ":" + e);
       // router.push(naviItem.path.replace(regexp, "/"));
       router.push(naviItem.path);
     },

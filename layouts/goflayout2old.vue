@@ -63,7 +63,7 @@
       class="sticky top-[60px] h-[calc(100vh-88px)]"
     >
       <!-- <slot name="leftside"></slot> -->
-      <!-- <LayoutAside3></LayoutAside3> -->
+      <LayoutAside3></LayoutAside3>
     </SplitterPanel>
     <SplitterResizeHandle class="w-0.5 bg-(--ui-border) hover:w-2" />
     <SplitterPanel :default-size="65" class="px-20">
@@ -84,14 +84,7 @@
 <script setup lang="ts">
 import { LayoutTopRight } from "#components";
 import { SplitterGroup, SplitterPanel, SplitterResizeHandle } from "reka-ui";
-import type {
-  Collections,
-  ContentCollectionItem,
-  PageCollectionItemBase,
-} from "@nuxt/content";
-
-// const { pageContent } = defineProps<{ page: PageCollectionItemBase }>();
-
+// const panelRef = ref<InstanceType<typeof SplitterPanel>>();
 const panelRef = useTemplateRef<InstanceType<typeof SplitterPanel>>("panelRef");
 
 provide("panelRef", panelRef);

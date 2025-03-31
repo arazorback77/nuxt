@@ -1,74 +1,144 @@
 <script setup lang="ts">
 import { queryCollection, queryCollectionNavigation } from "#imports";
-import type { Collections, ContentCollectionItem } from "@nuxt/content";
+import type { Collections } from "@nuxt/content";
 import { SplitterGroup, SplitterPanel, SplitterResizeHandle } from "reka-ui";
 import items from "@/public/data/bread.json";
+import bookversion from "@/public/data/bookversion.json";
 
 definePageMeta({
-  layout: "goflayout2",
-  // layout: "default",
+  // layout: "goflayout2",
+  layout: "default",
 });
 const router = useRouter();
 const route = useRoute();
+const slug = route.path.split("/");
 
-const slug = computed(() =>
-  Array.isArray(route.params.slug)
-    ? (route.params.slug as string[])
-    : [route.params.slug as string]
-);
-
-const collection = computed(() =>
-  route.path.split("/").length < 3
-    ? "content"
-    : (route.path.split("/")[1] as keyof Collections)
-);
-
-// const { data: page } = await useAsyncData(route.path, () => {
-//   return queryCollection("content").path(route.path).first();
-// });
-
-const { data: kicsv } = await useAsyncData(route.path + "-v", () => {
-  return (
-    queryCollection("kics_versioned")
-      .path(route.path)
-      // .path(route.path.replace("kics/current", "kics"))
-      .first()
+const selections = bookversion
+  .filter((book) => book.name.toLocaleLowerCase() == slug[1])
+  .flatMap((book) =>
+    book.versions.map((version) => ({
+      label: version,
+      path:
+        version == "current"
+          ? "/" + book.name.toLocaleLowerCase()
+          : "/" + book.name.toLocaleLowerCase() + "/" + version,
+      collection: (version == "current"
+        ? slug[1] + "_current"
+        : slug[1] + "_versioned") as keyof Collections,
+    }))
   );
-});
 
-const { data: kicsc } = await useAsyncData(route.path + "-c", () => {
-  return (
-    queryCollection("kics_current")
-      .path(route.path)
-      // .path(route.path.replace("kics", "kics/current"))
-      .first()
-  );
-});
-const { data: content } = await useAsyncData("content", () => {
-  return queryCollection("content").path(route.path).first();
-});
+const intiversion = selections.filter(
+  (item) => item.path == "/" + slug.slice(1, 3).join("/")
+)[0] ?? {
+  label: "current",
+  path: "/" + slug[1],
+  collection: (slug[1] + "_current") as keyof Collections,
+};
 
-const { data: compc } = await useAsyncData("comp-c", () => {
-  return queryCollection("comp_current").path(route.path).first();
-});
-
-const { data: compv } = await useAsyncData("comp-v", () => {
-  return queryCollection("comp_versioned").path(route.path).first();
+const { data: page } = await useAsyncData(route.path + "-v", () => {
+  return queryCollection(intiversion.collection).path(route.path).first();
 });
 
 const { data: prevNext } = await useAsyncData("surround", () => {
-  return queryCollectionItemSurroundings(collection.value, route.path);
+  return queryCollectionItemSurroundings(intiversion.collection, route.path);
 });
+
+const panelRef = useTemplateRef<InstanceType<typeof SplitterPanel>>("panelRef");
 </script>
 
 <template>
-  <UBreadcrumb :items="items" class="z-10 pt-2" />
+  <nav
+    class="bg-(--gofhead) grid grid-cols-[minmax(240px,0.18fr)_48px_1fr_minmax(200px,0.5fr)_120px] sticky top-0 h-12 z-100 items-center"
+  >
+    <LayoutTopLogo></LayoutTopLogo>
+    <div>
+      <UButton
+        v-if="panelRef?.isCollapsed"
+        icon="i-lucide-chevron-right"
+        size="md"
+        color="primary"
+        variant="solid"
+        class="rounded-full"
+        @click="panelRef?.expand()"
+      />
 
-  <ContentRenderer v-if="kicsv" :value="kicsv" />
+      <UButton
+        v-else
+        icon="i-lucide-chevron-left"
+        size="md"
+        color="primary"
+        variant="solid"
+        class="rounded-full"
+        @click="panelRef?.collapse()"
+      >
+      </UButton>
+    </div>
+    <LayoutTopCenter2></LayoutTopCenter2>
+    <LayoutTopRight></LayoutTopRight>
+
+    <div class="flex flex-row items-center justify-evenly">
+      <ColorModeButton></ColorModeButton>
+      <SignedOut>
+        <SignInButton>
+          <UButton
+            icon="i-lucide-user"
+            variant="solid"
+            size="md"
+            class="rounded-full font-bold bg-(--gofhead-accent)"
+            :ui="{
+              // leadingIcon: 'text-(--gofhead)',
+              leadingIcon: 'text-(--ui-text)',
+            }"
+          ></UButton>
+        </SignInButton>
+      </SignedOut>
+      <SignedIn>
+        <UserButton> </UserButton>
+      </SignedIn>
+    </div>
+  </nav>
+
+  <SplitterGroup
+    direction="horizontal"
+    class="h-full min-h-[calc(200vh-100px)] !overflow-visible"
+  >
+    <SplitterPanel
+      ref="panelRef"
+      collapsible
+      :default-size="20"
+      :collapsed-size="0"
+      :min-size="0"
+      class="sticky top-[60px] h-[calc(100vh-88px)]"
+    >
+      <!-- <slot name="leftside"></slot> -->
+      <!-- <LayoutAside3 :books="selections"></LayoutAside3> -->
+      <LayoutAside32 </LayoutAside32>
+    </SplitterPanel>
+    <SplitterResizeHandle class="w-0.5 bg-(--ui-border) hover:w-2" />
+    <SplitterPanel :default-size="65" class="px-20">
+      <UBreadcrumb :items="items" class="z-10 pt-2" />
+      <ContentRenderer v-if="page" :value="page" />
+      <LayoutBottom :prevNext="prevNext" />
+    </SplitterPanel>
+    <SplitterResizeHandle class="w-0.5 bg-(--ui-border) hover:w-2" />
+
+    <SplitterPanel
+      :default-size="15"
+      class="sticky top-[60px] h-[calc(100vh-88px)]"
+    >
+      {{ slug }}
+      Right Goflayout2
+      {{ intiversion }} {{ selections }}
+      <LayoutToc></LayoutToc>
+    </SplitterPanel>
+  </SplitterGroup>
+
+  <!-- <ContentRenderer v-if="kicsv" :value="kicsv" />
   <ContentRenderer v-if="kicsc" :value="kicsc" />
   <ContentRenderer v-if="content" :value="content" />
   <ContentRenderer v-if="compc" :value="compc" />
-  <ContentRenderer v-if="compv" :value="compv" />
+  <ContentRenderer v-if="compv" :value="compv" /> -->
 
   <!-- <div class="flex justify-between gap-4 mt-2">
         <div
@@ -128,46 +198,6 @@ const { data: prevNext } = await useAsyncData("surround", () => {
           </div>
         </NuxtLink>
       </div> -->
-
-  <div class="flex gap-4 mt-2">
-    <UButton
-      v-if="prevNext?.[0]"
-      variant="outline"
-      color="neutral"
-      leading-icon="i-tabler-chevron-left"
-      class="flex-1 py-4"
-      :ui="{
-        leadingIcon: 'w-8 h-8 text-(--ui-text-dimmed)',
-      }"
-    >
-      <NuxtLink v-if="prevNext?.[0]" :to="prevNext[0].path">
-        {{ prevNext[0].title }}
-      </NuxtLink>
-    </UButton>
-    <div v-else class="flex-1 py-4"></div>
-    <UButton
-      v-if="prevNext?.[1]"
-      variant="outline"
-      color="neutral"
-      trailing-icon="i-tabler-chevron-right"
-      class="flex-1 py-4"
-      :ui="{
-        trailingIcon: 'w-8 h-8 text-(--ui-text-dimmed)',
-      }"
-    >
-      <NuxtLink v-if="prevNext?.[1]" :to="prevNext[1].path" class="ml-auto">
-        {{ prevNext[1].title }}
-      </NuxtLink>
-    </UButton>
-    <div v-else class="flex-1 py-4"></div>
-  </div>
-
-  <p>&&&&&&&&&&&&&&&& Root {{ route.path }}& Kics $$$$$$$$$$$$$$$$$$$$$$$</p>
-  <div>KICS_V : {{ kicsv?.path }} $$$ KICS_C {{ kicsc?.path }}</div>
-  <p>&&&&&&&&&&&&&&&&{{ route.path }}& comp $$$$$$$$$$$$$$$$$$$$$$$</p>
-  {{ router }}
-
-  <div>Comp_V : {{ compv?.path }} && comp_C : {{ compc?.path }}</div>
 
   <!-- <div>
     <ul v-for="item in pageall">
