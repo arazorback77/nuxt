@@ -16,9 +16,9 @@ Wrapper 는 type, defaultValue 속성을 가지고 있다.
 
 Sub Item 은 value 속성을 가지고 있다. Wrapper 의 defaultValue 와 pair 로 작동함. 또한 중요한 기능으로 Sub Item 을 식별하는 key 역할을 수행함. 입력하지 않으면 자동으로 식별자를 생성함. (==> defaultValue 로 지정하는 경우 이외에는 지정하지 않는걸 권고함.)
 
-::AccoWrapper{type="multiple"}
+::GAccoWrapper{type="multiple"}
 
-::AccoItem
+::GAccoItem
 #header
 속성 설정 없는 기본적인 형태
 
@@ -28,8 +28,8 @@ Sub Item 은 value 속성을 가지고 있다. Wrapper 의 defaultValue 와 pair
 ---
 
 ```java
-::AccoWrapper
-::AccoItem
+::GAccoWrapper
+::GAccoItem
 #header
 속성 설정 없는 기본적인 형태
 
@@ -37,7 +37,7 @@ Sub Item 은 value 속성을 가지고 있다. Wrapper 의 defaultValue 와 pair
 여기에 작성하고 하는 본문내용을 작성함.
 ::
 
-::AccoItem
+::GAccoItem
 #header
 샘플1
 
@@ -52,7 +52,7 @@ Sub Item 은 value 속성을 가지고 있다. Wrapper 의 defaultValue 와 pair
 샘플코드 끝
 ::
 
-::AccoItem
+::GAccoItem
 #header
 샘플1
 
@@ -63,9 +63,9 @@ Sub Item 은 value 속성을 가지고 있다. Wrapper 의 defaultValue 와 pair
 
 - 속성지정 예시 ( 두번째 아코디어인 오픈되어 있음. 한번에 하나씩만 오픈됨)
 
-::AccoWrapper{type="single" defaultValue="openItem"}
+::GAccoWrapper{type="single" defaultValue="openItem"}
 
-::AccoItem
+::GAccoItem
 #header
 속성지정한 형태
 
@@ -73,9 +73,9 @@ Sub Item 은 value 속성을 가지고 있다. Wrapper 의 defaultValue 와 pair
 샘플 코드
 
 ```java
-::AccoWrapper{type="single"  defaultValue="openItem"}
+::GAccoWrapper{type="single"  defaultValue="openItem"}
 
-::AccoItem
+::GAccoItem
 #header
 속성 설정 없는 기본적인 형태
 
@@ -83,7 +83,7 @@ Sub Item 은 value 속성을 가지고 있다. Wrapper 의 defaultValue 와 pair
 샘플 코드
 ::
 
-::AccoItem{value="openItem"}
+::GAccoItem{value="openItem"}
 #header
 샘플2
 
@@ -96,7 +96,7 @@ Sub Item 은 value 속성을 가지고 있다. Wrapper 의 defaultValue 와 pair
 
 ::
 
-::AccoItem{value="openItem"}
+::GAccoItem{value="openItem"}
 #header
 샘플2
 
@@ -108,10 +108,12 @@ Sub Item 은 value 속성을 가지고 있다. Wrapper 의 defaultValue 와 pair
 
 ## Badge
 
-```java
-::AccoWrapper{type="single"  defaultValue="openItem"}
+### aaaa
 
-::AccoItem
+```java
+::GAccoWrapper{type="single"  defaultValue="openItem"}
+
+::GAccoItem
 #header
 속성 설정 없는 기본적인 형태
 
@@ -119,7 +121,7 @@ Sub Item 은 value 속성을 가지고 있다. Wrapper 의 defaultValue 와 pair
 샘플 코드
 ::
 
-::AccoItem{value="openItem"}
+::GAccoItem{value="openItem"}
 #header
 샘플2
 

@@ -5,13 +5,13 @@
     <LayoutTopLogo></LayoutTopLogo>
     <div>
       <UButton
-        v-if="panelRef?.isCollapsed"
+        v-if="panelState?.isCollapsed"
         icon="i-lucide-chevron-right"
         size="md"
         color="primary"
         variant="solid"
         class="rounded-full"
-        @click="panelRef?.expand()"
+        @click="panelState?.expand()"
       />
 
       <UButton
@@ -21,7 +21,7 @@
         color="primary"
         variant="solid"
         class="rounded-full"
-        @click="panelRef?.collapse()"
+        @click="toggleSide"
       >
       </UButton>
     </div>
@@ -49,54 +49,26 @@
       </SignedIn>
     </div>
   </nav>
-
-  <SplitterGroup
-    direction="horizontal"
-    class="h-full min-h-[calc(200vh-100px)] !overflow-visible"
-  >
-    <SplitterPanel
-      ref="panelRef"
-      collapsible
-      :default-size="20"
-      :collapsed-size="0"
-      :min-size="0"
-      class="sticky top-[60px] h-[calc(100vh-88px)]"
-    >
-      <!-- <slot name="leftside"></slot> -->
-      <LayoutAside3></LayoutAside3>
-    </SplitterPanel>
-    <SplitterResizeHandle class="w-0.5 bg-(--ui-border) hover:w-2" />
-    <SplitterPanel :default-size="65" class="px-20">
-      <slot> </slot>
-    </SplitterPanel>
-    <SplitterResizeHandle class="w-0.5 bg-(--ui-border) hover:w-2" />
-
-    <SplitterPanel
-      :default-size="15"
-      class="sticky top-[60px] h-[calc(100vh-88px)]"
-    >
-      Right Goflayout2
-      <LayoutToc></LayoutToc>
-    </SplitterPanel>
-  </SplitterGroup>
+  <div>Goflayout3</div>
+  <slot> </slot>
 </template>
 
 <script setup lang="ts">
 import { LayoutTopRight } from "#components";
 import { SplitterGroup, SplitterPanel, SplitterResizeHandle } from "reka-ui";
-// const panelRef = ref<InstanceType<typeof SplitterPanel>>();
-const panelRef = useTemplateRef<InstanceType<typeof SplitterPanel>>("panelRef");
 
-provide("panelRef", panelRef);
+const panelState: Ref<InstanceType<typeof SplitterPanel>> =
+  useState("panelState");
 
 // const btnSide = useState("left");
 const btnSide = computed<string>(() => {
-  return toValue(panelRef)?.isCollapsed ? "Expand" : "Collapse";
+  return toValue(panelState)?.isCollapsed ? "Expand" : "Collapse";
 });
 
 function toggleSide(event: Event) {
-  toValue(panelRef)?.isCollapsed
-    ? toValue(panelRef)?.expand()
-    : toValue(panelRef)?.collapse();
+  alert(panelState.value);
+  return toValue(panelState)?.isCollapsed
+    ? toValue(panelState)?.expand()
+    : toValue(panelState)?.collapse();
 }
 </script>

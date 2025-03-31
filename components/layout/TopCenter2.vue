@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import items from "@/public/data/menu.json";
+import items1 from "@/public/data/menu.json";
 const router = useRouter();
 
-const items1 = [
+const items = [
   {
     label: "Archives",
     icon: "i-lucide-book-open",
@@ -25,10 +25,7 @@ const items1 = [
         label: "Component",
         icon: "i-lucide-smile",
         description: "GBook Component",
-        // to: "/comp",
-        onSelect: (e: Event) => {
-          router.push("/comp/acco");
-        },
+        to: "/comp",
       },
       {
         label: "Colors",

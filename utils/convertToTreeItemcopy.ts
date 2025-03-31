@@ -3,34 +3,20 @@ import type { ContentNavigationItem } from "@nuxt/content";
 import type { Router } from "vue-router";
 import type { TocLink } from "@nuxt/content";
 
-function selectNaviNode(
-  naviItem: ContentNavigationItem[] | null,
-  path: string
-): ContentNavigationItem | undefined {
-  if (naviItem) {
-    for (var nav of naviItem) {
-      if (nav.path == path) {
-        console.log("nav : " + nav.path);
-        return nav;
-      } else {
-        if (nav.children) {
-          for (var child of nav.children) {
-            if (child.path == path) {
-              console.log("child : " + child.path);
-              return child;
-            }
-          }
-        }
-      }
-    }
-  }
-}
-function convertNaviToTreeItem(
+function convertNaviToTreeItem1(
   naviItem: ContentNavigationItem,
   index: number,
   router: Router
 ): TreeItem {
+  // const regexp = new RegExp(`(${naviItem.stem})/`, "gi");
+
   return {
+    // label: naviItem.stem?.split("/").pop()?.split(".").splice(1).join("."),
+    // naviItem.title == ""
+    //   ? naviItem.stem?.split("/").pop()?.split(".").join(".")
+    //   : naviItem.title,
+    // label: naviItem.title,
+    // value: naviItem.path.replace(regexp, "/"),
     label: naviItem.title,
     value: naviItem.path,
     icon: naviItem.children ? "" : "i-vscode-icons-file-type-markdown",
@@ -45,7 +31,7 @@ function convertNaviToTreeItem(
   };
 }
 
-function convertTocLinkToTreeItem(
+function convertTocLinkToTreeItem1(
   route: string,
   toclink: TocLink,
   index: number
@@ -55,8 +41,6 @@ function convertTocLinkToTreeItem(
     label: toclink.text,
     value: route + "#" + toclink.id,
     defaultExpanded: true,
-    // icon: "i-tabler-square-rounded-plus",
-    // icon: "i-tabler-square-chevron-right",
     children: toclink.children?.map((sub) =>
       convertTocLinkToTreeItem(route, sub, 1)
     ),
@@ -66,4 +50,4 @@ function convertTocLinkToTreeItem(
   };
 }
 
-export { convertNaviToTreeItem, convertTocLinkToTreeItem, selectNaviNode };
+export { convertNaviToTreeItem1, convertTocLinkToTreeItem1 };

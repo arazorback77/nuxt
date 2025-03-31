@@ -1,0 +1,12 @@
+
+    "book": "Kics",
+    "versions": { version :"current", collection : "kicv_collection"}
+  },
+  {
+    "book": "IFRS",
+    "versions": "[current, v1.0, v2.0]"
+  },
+  {
+    "book": "Comp",
+    "versions": "[current, v1.0]"
+  }

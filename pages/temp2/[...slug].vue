@@ -3,12 +3,13 @@ import { queryCollection, queryCollectionNavigation } from "#imports";
 import type { Collections, ContentCollectionItem } from "@nuxt/content";
 import { SplitterGroup, SplitterPanel, SplitterResizeHandle } from "reka-ui";
 import items from "@/public/data/bread.json";
+import type { RefSymbol } from "@vue/reactivity";
 
 const panelRef = useTemplateRef<InstanceType<typeof SplitterPanel>>("panelRef");
 // provide("panelRef", panelRef);
 
 definePageMeta({
-  layout: "default",
+  layout: "goflayout3",
 });
 const router = useRouter();
 const route = useRoute();
@@ -61,58 +62,24 @@ const { data: compv } = await useAsyncData("comp-v", () => {
 const { data: prevNext } = await useAsyncData("surround", () => {
   return queryCollectionItemSurroundings(collection.value, route.path);
 });
+
+const panelState = useState("panelState", () => panelRef.value);
+// useTemplateRef<InstanceType<typeof SplitterPanel>>("panelRef")
+// );
+// const panelState = useState("panelState", () =>
+//   useTemplateRef<InstanceType<typeof SplitterPanel>>("panelRef")
+// );
+// );
+function showState() {
+  // alert(useTemplateRef<InstanceType<typeof SplitterPanel>>("panelRef").value);
+  console.log("aaa");
+  // console.log(panelState.value?.$);
+  console.log(panelRef.value?.$);
+  console.log("aaa");
+}
 </script>
 
 <template>
-  <nav
-    class="bg-(--gofhead) grid grid-cols-[minmax(215px,0.2fr)_48px_1fr_minmax(200px,0.5fr)_120px] sticky top-0 h-12 z-100 items-center"
-  >
-    <LayoutTopLogo></LayoutTopLogo>
-    <div>
-      <UButton
-        v-if="panelRef?.isCollapsed"
-        icon="i-lucide-chevron-right"
-        size="md"
-        color="primary"
-        variant="solid"
-        class="rounded-full"
-        @click="panelRef?.expand()"
-      />
-
-      <UButton
-        v-else
-        icon="i-lucide-chevron-left"
-        size="md"
-        color="primary"
-        variant="solid"
-        class="rounded-full"
-        @click="panelRef?.collapse()"
-      />
-    </div>
-    <LayoutTopCenter2></LayoutTopCenter2>
-    <LayoutTopRight></LayoutTopRight>
-
-    <div class="flex flex-row items-center justify-evenly">
-      <ColorModeButton></ColorModeButton>
-      <SignedOut>
-        <SignInButton>
-          <UButton
-            icon="i-lucide-user"
-            variant="solid"
-            size="md"
-            class="rounded-full font-bold bg-(--gofhead-accent)"
-            :ui="{
-              // leadingIcon: 'text-(--gofhead)',
-              leadingIcon: 'text-(--ui-text)',
-            }"
-          ></UButton>
-        </SignInButton>
-      </SignedOut>
-      <SignedIn>
-        <UserButton> </UserButton>
-      </SignedIn>
-    </div>
-  </nav>
   <SplitterGroup
     direction="horizontal"
     class="h-full min-h-[calc(200vh-100px)] !overflow-visible"
@@ -124,7 +91,9 @@ const { data: prevNext } = await useAsyncData("surround", () => {
       :collapsed-size="0"
       :min-size="0"
       class="sticky top-[60px] h-[calc(100vh-88px)]"
+      v-slot="slotProp"
     >
+      {{ slotProp.isCollapsed }}
       <LayoutAside3></LayoutAside3>
     </SplitterPanel>
     <SplitterResizeHandle class="w-0.5 bg-(--ui-border) hover:w-2" />
@@ -242,6 +211,16 @@ const { data: prevNext } = await useAsyncData("surround", () => {
       class="sticky top-[60px] h-[calc(100vh-88px)]"
     >
       Right
+      <UButton
+        icon="i-lucide-chevron-left"
+        size="md"
+        color="primary"
+        variant="solid"
+        class="rounded-full"
+        @click="showState"
+      >
+      </UButton>
+
       <LayoutToc></LayoutToc>
     </SplitterPanel>
   </SplitterGroup>

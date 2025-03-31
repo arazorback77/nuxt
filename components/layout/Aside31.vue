@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import type { TreeItem } from "@nuxt/ui";
-import type {
-  Collections,
-  ContentNavigationItem,
-  PageCollection,
-} from "@nuxt/content";
+import type { Collections, ContentNavigationItem } from "@nuxt/content";
 import { convertNaviToTreeItem } from "#imports";
 import bookversion from "@/public/data/bookversion.json";
 import type { version } from "vue";
@@ -29,34 +25,61 @@ const selections = computed(() =>
           version == "current"
             ? "/" + book.name.toLocaleLowerCase()
             : "/" + book.name.toLocaleLowerCase() + "/" + version,
-        collection: (version == "current"
-          ? slug.value[1] + "_current"
-          : slug.value[1] + "_versioned") as keyof Collections,
+        // collection:
+        //   version == "current"
+        //     ? slug.value[1] + "_current"
+        //     : slug.value[1] + "_versioned",
       }))
     )
 );
+// const intiversion = selections.value
+//   .filter((item) => item.path == "/" + slug.value.slice(1, 3).join("/"))
+//   .map((item) => item.path)[0];
+// const intiversion = computed(
+//   () =>
+//     selections.value
+//       .filter((item) => item.path == "/" + slug.value.slice(1, 3).join("/"))
+//       .map((item) => item.path)[0]
+// );
 
-const intiversion = computed(
+const init = computed(
   () =>
     selections.value.filter(
       (item) => item.path == "/" + slug.value.slice(1, 3).join("/")
     )[0] ?? {
       label: "current",
       path: "/" + slug.value[1],
-      collection: (slug.value[1] + "_current") as keyof Collections,
+      // collection: slug.value[1] + "_versioned",
     }
 );
 
-const selectedVersion = ref(intiversion);
-
-const selectedVersionState = useState<keyof Collections>(
-  "selectVersion",
-  () => selectedVersion.value.collection
+const selectedVersion1 = ref(
+  selections.value.filter(
+    (item) => item.path == "/" + slug.value.slice(1, 3).join("/")
+  )[0] ?? {
+    label: "current",
+    path: "/" + slug.value[1],
+    // collection: slug.value[1] + "_versioned",
+  }
 );
 
+const selectedVersion = ref(init);
+
+const collection = computed(
+  () =>
+    (selectedVersion.value.label == "current"
+      ? slug.value[1] + "_current"
+      : slug.value[1] + "_versioned") as keyof Collections
+);
+
+// const collection = computed(
+//   () =>
+//     (selectedVersion.value.collection
+// );
+
 const navic = computed(() =>
-  useAsyncData(selectedVersion.value.collection + "_nav", () => {
-    return queryCollectionNavigation(selectedVersion.value.collection);
+  useAsyncData(collection.value + "_nav", () => {
+    return queryCollectionNavigation(collection.value);
   })
 );
 
@@ -76,15 +99,16 @@ const selectedTreeNode = ref();
 </script>
 
 <template>
-  <!-- <div>route : {{ route.path }}::</div>
-  <div>slug:{{ slug }} ::</div> -->
-  <!-- <div>col: {{ collection }}::</div> -->
-  <!-- <div>selection : {{ selections }}::: {{ selectedVersion }}:: ####</div> -->
-  <!-- <div>{{ selectedVersion }}::</div> -->
+  <div>route : {{ route.path }}::</div>
+  <div>slug:{{ slug }} ::</div>
+  <div>col: {{ collection }}::</div>
+  <div>selection : {{ selections }}::: {{ selectedVersion }}:: ####</div>
+  <div>{{ selectedVersion }}:: ####</div>
   <!-- {{ navic }} -->
-  <!-- <ul v-for="item in navic.data.value"> -->
-  <!-- <li>{{ item }}</li> -->
-  <!-- </ul> -->
+  %%%%
+  <ul v-for="item in navic.data.value">
+    <!-- <li>{{ item }}</li> -->
+  </ul>
   <!-- <ul v-for="item in navic.data.value">
     <li>{{ item }}</li>
   </ul> -->

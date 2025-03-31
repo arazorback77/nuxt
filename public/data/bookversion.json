@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Kics",
+    "versions": ["current", "v1.0", "v2.0"]
+  },
+  {
+    "name": "IFRS",
+    "versions": ["current", "v1.0", "v2.0"]
+  },
+  {
+    "name": "Comp",
+    "versions": ["current", "v1.0"]
+  }
+]
