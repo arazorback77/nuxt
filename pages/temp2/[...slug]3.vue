@@ -22,108 +22,122 @@ const routeaa = useRoute();
 const route = { value: routeaa.path };
 // const slug = ref(route.value.split("/"));
 const slug = { value: route.value.split("/") };
+debugger;
+const selections = computed(() =>
+  bookversion
+    .filter((book) => book.name.toLocaleLowerCase() == slug.value[1])
+    .flatMap((book) =>
+      book.versions.map((version) => ({
+        label: version,
+        path:
+          version == "current"
+            ? "/" + book.name.toLocaleLowerCase()
+            : "/" + book.name.toLocaleLowerCase() + "/" + version,
+        collection: (version == "current"
+          ? slug.value[1] + "_current"
+          : slug.value[1] + "_versioned") as keyof Collections,
+      }))
+    )
+);
+type MyNode = {
+  label: string;
+  path: string;
+  collection: keyof Collections;
+};
 
-// const selections = computed(() =>
-//   bookversion
-//     .filter((book) => book.name.toLocaleLowerCase() == slug.value[1])
-//     .flatMap((book) =>
-//       book.versions.map((version) => ({
-//         label: version,
-//         path:
-//           version == "current"
-//             ? "/" + book.name.toLocaleLowerCase()
-//             : "/" + book.name.toLocaleLowerCase() + "/" + version,
-//         collection: (version == "current"
-//           ? slug.value[1] + "_current"
-//           : slug.value[1] + "_versioned") as keyof Collections,
-//       }))
-//     )
-// );
-// const initversion = computed<{
-//   label: string;
-//   path: string;
-//   collection: keyof Collections;
-// }>(
-//   () =>
-//     selections.value.filter(
-//       (item) => item.path == "/" + slug.value.slice(1, 3).join("/")
-//     )[0] ?? {
-//       label: "current",
-//       path: route.value,
-//       collection: (slug.value[1] + "_current") as keyof Collections,
-//     }
-// );
-// const initSel = computed<{
-//   label: string;
-//   path: string;
-// }>(
-//   () =>
-//     selections.value
-//       .filter((item) => item.path == "/" + slug.value.slice(1, 3).join("/"))
-//       .map((s) => ({
-//         label: s.label,
-//         path: s.path,
-//       }))[0] ?? {
-//       label: "current",
-//       path: route.value,
-//     }
-// );
+const initversion = computed<{
+  label: string;
+  path: string;
+  collection: keyof Collections;
+}>(
+  () =>
+    selections.value.filter(
+      (item) => item.path == "/" + slug.value.slice(1, 3).join("/")
+    )[0] ?? {
+      label: "current",
+      path: route.value,
+      collection: (slug.value[1] + "_current") as keyof Collections,
+    }
+);
+debugger;
+const initSel = computed<{
+  label: string;
+  path: string;
+}>(
+  () =>
+    selections.value
+      .filter((item) => item.path == "/" + slug.value.slice(1, 3).join("/"))
+      .map((s) => ({
+        label: s.label,
+        path: s.path,
+      }))[0] ?? {
+      label: "current",
+      path: route.value,
+    }
+);
 
-// const coll = ref(initversion.value.collection);
+const coll = ref(initversion.value.collection);
 // const initSel = ref(initversion.value.path);
 
+const treeItems = ref<TreeItem[]>();
+
+// debugger;
+const { data: navi } = await useAsyncData(
+  coll.value + "_nav",
+  () => {
+    console.log("call Navic in Asdie1 :" + coll.value);
+    return queryCollectionNavigation(coll.value);
+    // return queryCollectionNavigation(initversion.value.collection);
+  },
+  {
+    watch: [coll],
+  }
+);
+
+// const nav = reactive<ContentNavigationItem[]>(navi.value ?? []);
+
 // const treeItems = ref<TreeItem[]>();
+// debugger;
+watchEffect(() => {
+  // console.log("watcheffect :" + route.value + navi.value?.[0].title);
+  console.log("watcheffect :" + coll.value);
+  // const selectNode = selectNaviNode(nav, route.value);
 
-// const { data: navi } = await useAsyncData(
-//   coll.value + "_nav",
-//   () => {
-//     console.log("call Navic in Asdie1 :" + coll.value);
-//     return queryCollectionNavigation(coll.value);
-//     // return queryCollectionNavigation(initversion.value.collection);
-//   },
-//   {
-//     watch: [coll],
-//   }
-// );
+  treeItems.value =
+    navi.value?.[0].children?.map((aa, idx) =>
+      convertNaviToTreeItem2(aa, idx)
+    ) || [];
+  // selectNaviNode(nav, route.value)?.children?.map((aa, idx) => convertNaviToTreeItem2(aa, idx)) ||
+  //   [
+  //     { label: "aa", value: "/" },
+  //     { label: "bb", value: "/kics" },
+  //   ];
+  // treeItems.value.push({ label: route.value, value: route.value });
+});
 
-// watchEffect(() => {
-//   console.log("watcheffect :" + coll.value);
+const wat = ref("");
+watch(
+  // () => navi.value,
+  coll,
+  // navi,
+  (newNav) => {
+    console.log("watch Route : " + ":" + ":" + newNav);
+    wat.value = newNav;
+    // treeItems.value =
+    //   newNav?.[0].children?.map((aa, idx) => convertNaviToTreeItem2(aa, idx)) ||
+    //   [];
+    // navi.value?.[0].children?.map((aa, idx) => convertNaviToTreeItem2(aa, idx)
+    // ) || [];
 
-//   treeItems.value =
-//     navi.value?.[0].children?.map((aa, idx) =>
-//       convertNaviToTreeItem2(aa, idx)
-//     ) || [];
-// selectNaviNode(nav, route.value)?.children?.map((aa, idx) => convertNaviToTreeItem2(aa, idx)) ||
-//   [
-//     { label: "aa", value: "/" },
-//     { label: "bb", value: "/kics" },
-//   ];
-// treeItems.value.push({ label: route.value, value: route.value });
-// });
-
-// const wat = ref("");
-// watch(
-// () => navi.value,
-// coll,
-// navi,
-// (newNav) => {
-// console.log("watch Route : " + ":" + ":" + newNav);
-// wat.value = newNav;
-// treeItems.value =
-//   newNav?.[0].children?.map((aa, idx) => convertNaviToTreeItem2(aa, idx)) ||
-//   [];
-// navi.value?.[0].children?.map((aa, idx) => convertNaviToTreeItem2(aa, idx)
-// ) || [];
-
-// const qqq = queryCollectionNavigation(newNav);
-// qqq.then((zz) => {
-//   treeItems.value =
-//     zz?.[0].children?.map((aa, idx) => convertNaviToTreeItem2(aa, idx)) ||
-//     [];
-// });
-//   },
-//   { immediate: true }
-// );
+    // const qqq = queryCollectionNavigation(newNav);
+    // qqq.then((zz) => {
+    //   treeItems.value =
+    //     zz?.[0].children?.map((aa, idx) => convertNaviToTreeItem2(aa, idx)) ||
+    //     [];
+    // });
+  },
+  { immediate: true }
+);
 
 // const treeItems = computed(
 //   () =>
@@ -136,8 +150,9 @@ const { data: page } = await useAsyncData(
   route.value + "-v",
   () => {
     console.log("call page in Asdie0 :" + route.value);
-    // return queryCollection(initversion.value.collection)
-    return queryCollection("kics_current").path(route.value).first();
+    return queryCollection(initversion.value.collection)
+      .path(route.value)
+      .first();
   },
   {
     // watch: [route],
@@ -176,30 +191,30 @@ function convertNaviToTreeItem2(
 //     convertNaviToTreeItem(aa, idx, router)
 //   ) || [];
 
-// const { data: prevNext } = await useAsyncData(
-//   "surround",
-//   () => {
-//     console.log(
-//       "call Surround in Asdie2 :" +
-//         route.value +
-//         ":" +
-//         initversion.value.collection
-//     );
-//     return queryCollectionItemSurroundings(
-//       initversion.value.collection,
-//       route.value
-//     );
-//   },
-//   {
-//     watch: [initversion],
-//   }
-// );
+const { data: prevNext } = await useAsyncData(
+  "surround",
+  () => {
+    console.log(
+      "call Surround in Asdie2 :" +
+        route.value +
+        ":" +
+        initversion.value.collection
+    );
+    return queryCollectionItemSurroundings(
+      initversion.value.collection,
+      route.value
+    );
+  },
+  {
+    watch: [initversion],
+  }
+);
 
 const panelRef = useTemplateRef<InstanceType<typeof SplitterPanel>>("panelRef");
 // debugger;
-onMounted(() => console.log("Page mounted : " + routeaa.path));
-onUpdated(() => console.log("Page updated :" + routeaa.path));
-onUnmounted(() => console.log("Page unmouted :" + routeaa.path));
+onMounted(() => console.log("Page mounted"));
+onUpdated(() => console.log("Page updated"));
+onUnmounted(() => console.log("Page unmouted"));
 </script>
 
 <template>
@@ -270,12 +285,12 @@ onUnmounted(() => console.log("Page unmouted :" + routeaa.path));
         <ULink to="/kics/intro/1-1">ULink</ULink>
         <NuxtLink to="/kics/valuation">link kics </NuxtLink>
         <!-- <slot name="leftside"></slot> -->
-        <!-- <LayoutAside3
+        <LayoutAside3
           :collection="coll"
           :initSelect="initSel"
           :books="selections"
           :treeItems="treeItems"
-        ></LayoutAside3> -->
+        ></LayoutAside3>
 
         <!-- <LayoutAside3> </LayoutAside3> -->
         <!-- <LayoutAside32> </LayoutAside32> -->
@@ -285,8 +300,8 @@ onUnmounted(() => console.log("Page unmouted :" + routeaa.path));
         <UBreadcrumb :items="items" class="z-10 pt-2" />
         <!-- <ContentRenderer v-if="page" :value="page" /> -->
         <template v-if="page">
-          {{ route }} :: {{ slug }}
-          <!-- <div>{{ treeItems }}</div> -->
+          {{ wat }} :: {{ slug }}
+          <div>{{ treeItems }}</div>
           <ContentRenderer :value="page" />
         </template>
         <template v-else>
@@ -297,7 +312,7 @@ onUnmounted(() => console.log("Page unmouted :" + routeaa.path));
           </div>
         </template>
 
-        <!-- <LayoutBottom :prevNext="prevNext" /> -->
+        <LayoutBottom :prevNext="prevNext" />
         <!-- <div>{{ treeItems }}</div> -->
         :::::
         <!-- <div>{{ nav }}</div> -->
@@ -313,11 +328,11 @@ onUnmounted(() => console.log("Page unmouted :" + routeaa.path));
           ####
         </div>
         <div>
-          <!-- {{ initversion }} -->
+          {{ initversion }}
           ####
         </div>
         <div>
-          <!-- {{ selections }} -->
+          {{ selections }}
         </div>
         <div></div>
         <LayoutToc></LayoutToc>

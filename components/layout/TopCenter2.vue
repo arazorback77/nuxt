@@ -20,6 +20,7 @@ const items = [
         label: "Basel",
         description: "Basel Accord",
         icon: "i-lucide-cloud-download",
+        to: "/kics/intro/1-1",
       },
       {
         label: "Component",
@@ -32,6 +33,7 @@ const items = [
         icon: "i-lucide-swatch-book",
         description:
           "Choose a primary and a neutral color from your Tailwind CSS theme.",
+        to: "/kics/intro/1-2",
       },
       {
         label: "Theme",

@@ -17,9 +17,13 @@
 </template>
 
 <script setup lang="ts">
-const { type = "multiple", collapsible = true } = defineProps<{
+const {
+  type = "multiple",
+  collapsible = true,
+  defaultValue = "value",
+} = defineProps<{
   type?: "single" | "multiple";
   collapsible?: boolean;
-  defaultValue: string | string[];
+  defaultValue?: string | string[];
 }>();
 </script>

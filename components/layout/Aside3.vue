@@ -8,60 +8,94 @@ import type {
 import { convertNaviToTreeItem } from "#imports";
 import bookversion from "@/public/data/bookversion.json";
 import { Label } from "reka-ui";
+import { tree } from "#build/ui";
 
-const { books } = defineProps<{
+const { collection, initSelect, books, treeItems } = defineProps<{
+  collection: keyof Collections;
+  initSelect: {
+    label: string;
+    path: string;
+  };
   books: {
     label: string;
     path: string;
     collection: keyof Collections;
   }[];
+  treeItems: TreeItem[] | undefined;
+  // initVer: Ref<{
+  //   label: string;
+  //   path: string;
+  //   collection: keyof Collections;
+  // }>;
 }>();
+
 const router = useRouter();
 const route = useRoute();
 const slug = route.path.split("/");
 
-const intiversion = books.filter(
-  (item) => item.path == "/" + slug.slice(1, 3).join("/")
-)[0] ?? {
-  label: "current",
-  path: "/" + slug[1],
-  collection: (slug[1] + "_current") as keyof Collections,
-};
+const selections = books.map((s) => ({
+  label: s.label,
+  path: s.path,
+}));
+debugger;
+const selectedVersion = ref(initSelect);
 
-const selectedVersion = ref(intiversion);
+// const { data: nav } = await useAsyncData(collection.toString() + "_nav", () => {
+//   console.log("call Navic in Asdie0 :" + collection.toString());
+//   return queryCollectionNavigation(collection);
+// });
 
-const { data: navic } = await useAsyncData(
-  selectedVersion.value.collection + "_nav",
-  () => {
-    // return queryCollectionNavigation(selectedVersion.value.collection);
-    return queryCollectionNavigation(intiversion.collection);
-  }
-);
-// const navic = computed(() =>
-//   useAsyncData(selectedVersion.value.collection + "_nav", () => {
-//     return queryCollectionNavigation(selectedVersion.value.collection);
-//   })
+// const treeItems = ref<TreeItem[]>();
+
+// watch(
+//   selectedVersion,
+//   (newValue, oldValue) => {
+//     console.log(
+//       "zzzzz : " +
+//         newValue +
+//         ":" +
+//         (nav.value != null ? nav.value[0].path : "zz")
+//     );
+//     treeItems.value =
+//       selectNaviNode(nav.value, newValue)?.children?.map((aa, idx) =>
+//         convertNaviToTreeItem(aa, idx, router)
+//       ) || [];
+//   },
+//   { immediate: true, once: true }
 // );
 
-const treeItems =
-  selectNaviNode(navic.value, selectedVersion.value.path)?.children?.map(
-    (aa, idx) => convertNaviToTreeItem(aa, idx, router)
-  ) || [];
-// const treeItems = computed<TreeItem[]>(() => []);
+onMounted(() => console.log("Aside3 mounted"));
+onUpdated(() => console.log("Aside3 updated :"));
+onUnmounted(() => console.log("Aside3 unmounted:"));
+// onRenderTracked((event) => {
+//   console.log("onRenderTracked : " + event.type + ":::" + event.key + ":");
+// });
+
+// onRenderTriggered((event) => {
+//   console.log("onRenderTriggered : " + event.type + ":" + event.target);
+// });
 
 const selectedTreeNode = ref();
 </script>
 
 <template>
   <div class="flex flex-col pb-2 px-4 border-b-1 border-gof-200">
-    <!-- <div>
-    </div> -->
+    <NuxtLink to="/kics/intro/1-1" target="_blank">aaaaaaaaaaaa </NuxtLink>
+    <div>{{ slug }} {{ route.path }} :::: {{ collection }}</div>
+    <!-- <div>{{ initVer }}</div> -->
+    <div>{{ initSelect }} ::: {{ selectedVersion }}</div>
+    <div>&&&&</div>
+    <div>{{ selectedVersion }}</div>
+    <!-- <div>@@@@{{ navi }}</div> -->
+    <!-- <div>@@@@{{ treeItems1 }}</div> -->
+    <!-- <div>####{{ treeItems }}</div> -->
+    <!-- <div>$$${{ nav }}</div> -->
     <div class="pl-2">Available versions</div>
     <USelect
       placeholder="Select version"
       v-model="selectedVersion.path"
       value-key="path"
-      :items="books"
+      :items="selections"
       class="w-full"
       highlight
       size="xs"

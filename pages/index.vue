@@ -4,7 +4,7 @@
     <h2>Home</h2>
     <UButton>GOF</UButton>
     <UButton color="gof">GOF gof</UButton>
-    <UButton color="goff">GOF goff</UButton>
+    <!-- <UButton color="goff">GOF goff</UButton> -->
     <UButton color="error">GOF error </UButton>
     <UButton color="info">GOF info</UButton>
     <UButton color="warning">GOF warn</UButton>

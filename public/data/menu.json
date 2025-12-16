@@ -12,7 +12,8 @@
       {
         "label": "Basel",
         "description": "Basel Accord",
-        "icon": "i-lucide-cloud-download"
+        "icon": "i-lucide-cloud-download",
+        "to": "/kics/intro/1-1"
       },
       {
         "label": "Component",
@@ -23,7 +24,8 @@
       {
         "label": "Colors",
         "icon": "i-lucide-swatch-book",
-        "description": "Choose a primary and a neutral color from your Tailwind CSS theme."
+        "description": "Choose a primary and a neutral color from your Tailwind CSS theme.",
+        "to": "/kics/intro/1-2"
       },
       {
         "label": "Theme",

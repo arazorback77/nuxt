@@ -28,14 +28,14 @@ const {
   type = "gof",
   variant = "outline",
   outerIndent = 4,
-  innerIndent = 4,
+  innerIndent = "4",
   textSize = "sm",
 } = defineProps<{
   title: string;
   type?: "gof" | "neutral" | "primary" | "secondary";
   variant?: "solid" | "outline" | "soft" | "subtle";
   outerIndent?: number;
-  innerIndent?: number;
+  innerIndent?: string;
   textSize?: string;
 }>();
 

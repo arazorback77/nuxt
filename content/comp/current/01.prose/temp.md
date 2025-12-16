@@ -140,54 +140,7 @@ Sub Item 은 value 속성을 가지고 있다. Wrapper 의 defaultValue 와 pair
 
 ##### solid
 
-::alert{type="info", title="zzzzz"}
-info
-::
-
-::alert{type="success"}
-::
-
-::alert{type="warning"}
-::
-
-::alert{type="error"}
-::
-
-::alert{type="secondary"}
-::
-
-::alert{type="primary"}
-::
-
 ##### subtle
-
-::alert{type="info", variant="subtle"}
-info
-::
-
-::alert{type="success", variant="subtle"}
-::
-
-::alert{type="warning" variant="subtle"}
-::
-
-::alert{type="error" variant="subtle"}
-::
-
-::alert{type="secondary" variant="subtle"}
-::
-
-::alert{type="gof"}
-::
-
-::alert{type="gofinv" variant="solid"}
-::
-
-::alert{type="gofhead"}
-::
-
-::alert{type="gofinv"}
-::
 
 ::AlertDanger{variant="solid" title="solid" desc=" variant: solid"}
 ::

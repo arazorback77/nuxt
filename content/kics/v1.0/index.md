@@ -3,8 +3,4 @@ title:  Builtin
 navigation: false
 ---
 
-# comp current index md
-
-asdfa
-asdfa
-aasdfa
+## kics v1.0

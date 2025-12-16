@@ -4,19 +4,20 @@ import type { Router } from "vue-router";
 import type { TocLink } from "@nuxt/content";
 
 function selectNaviNode(
-  naviItem: ContentNavigationItem[] | null,
+  naviItem: ContentNavigationItem[] | null | undefined,
   path: string
 ): ContentNavigationItem | undefined {
+  const verpath = path.split("/").slice(0, 3).join("/");
   if (naviItem) {
     for (var nav of naviItem) {
-      if (nav.path == path) {
-        console.log("nav : " + nav.path);
+      if (nav.path == path.split("/").slice(0, 3).join("/")) {
+        console.log("select nav in util: " + nav.path);
         return nav;
       } else {
         if (nav.children) {
           for (var child of nav.children) {
-            if (child.path == path) {
-              console.log("child : " + child.path);
+            if (child.path == verpath) {
+              console.log("select child in util: " + child.path);
               return child;
             }
           }
@@ -33,17 +34,21 @@ function convertNaviToTreeItem(
   return {
     label: naviItem.title,
     value: naviItem.path,
-    icon: naviItem.children ? "" : "i-vscode-icons-file-type-markdown",
-    defaultExpanded: index == 0 ? true : false,
+    icon: naviItem.children ? "" : "i-tabler-file-type-doc",
+    // defaultExpanded: index == 0 ? true : false,
     children: naviItem.children?.map((sub) =>
       convertNaviToTreeItem(sub, 1, router)
     ),
     onToggle: (e: Event) => {},
     // to: naviItem.path,
     onSelect: (e: Event) => {
-      console.log("treenode" + naviItem.path + ":" + e);
+      // console.log("treenode" + naviItem.path + ":" + e);
+      // alert("treenode " + naviItem.path + ":" + e);
       // router.push(naviItem.path.replace(regexp, "/"));
+      // naviItem.page ? router.push(naviItem.path) : "";
+      // if (naviItem.page != false) {
       router.push(naviItem.path);
+      // }
     },
   };
 }
